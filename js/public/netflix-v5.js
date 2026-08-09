@@ -1,0 +1,10 @@
+
+import { watchCourses, watchSettings } from "../lib/store.js";
+let courses=[],settings={};
+const $=(s)=>document.querySelector(s);
+const esc=(v="")=>String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+const money=v=>Number.isFinite(Number(v))?`₹${Number(v).toLocaleString("en-IN")}`:"";
+function card(c){const img=c.imageData||c.image||"";const title=c.title||"Untitled Course";const tg=c.telegram||settings.telegram||"#";return `<article class="v5-card"><a class="v5-card-media" href="course.html?id=${encodeURIComponent(c.id)}">${img?`<img src="${esc(img)}" alt="${esc(title)}">`:`<div style="height:100%;display:grid;place-items:center;background:radial-gradient(circle at 70% 20%,#70101c,#111 55%)"><b>${esc(title)}</b></div>`}<div class="v5-card-overlay"><div class="v5-card-title"><span class="v5-play"></span><span>${esc(title)}</span></div></div></a><div class="v5-meta"><span>${esc(c.category||"Course")}</span><span class="v5-price">${money(c.price)||"Ask Price"}</span></div><a class="v5-btn" href="${esc(tg)}" target="_blank" rel="noopener">Get Course ↗</a></article>`}
+function render(){const live=courses.filter(c=>c.published!==false);const trending=live.filter(c=>c.trending);const primary=trending.length?trending:live;$("#trendingRow").innerHTML=primary.length?primary.map(card).join(""):`<div class="v5-empty">Add courses from Admin → Courses. Mark them Trending to show here.</div>`;const collage=(live.filter(c=>c.featured).length?live.filter(c=>c.featured):live).slice(0,8);$("#heroCollage").innerHTML=collage.map(c=>{const img=c.imageData||c.image||"";return `<div class="tile">${img?`<img src="${esc(img)}" alt="">`:`<div style="height:100%;display:grid;place-items:center;background:linear-gradient(135deg,#171717,#47050d);font-weight:800">${esc(c.category||"Course")}</div>`}</div>`}).join("")}
+watchCourses(x=>{courses=x;render()},console.error);watchSettings(x=>{settings=x;render()},console.error);
+$("#leftArrow").onclick=()=>$("#trendingRow").scrollBy({left:-540,behavior:"smooth"});$("#rightArrow").onclick=()=>$("#trendingRow").scrollBy({left:540,behavior:"smooth"});
