@@ -1,1 +1,0 @@
-// Firebase configuration for Courseraj
