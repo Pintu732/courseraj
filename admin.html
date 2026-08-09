@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><link rel="icon" href="assets/icons/favicon.svg"><title>Courseraj Admin</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/tokens.css"><link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/components.css"><link rel="stylesheet" href="css/admin.css"><link rel="stylesheet" href="css/responsive.css"></head><body class="admin-body">
+<section id="loginScreen" class="login-screen"><div class="login-card"><div class="brand"><img src="assets/icons/logo.svg"><span>COURSE<span style="color:var(--accent)">RAJ</span></span></div><span class="eyebrow">ADMIN ONLY</span><h1>Edit your entire website.</h1><p class="small-muted">Courses, prices, logo, text, categories and Telegram — all from here.</p><form id="loginForm" class="form"><label>Email<input id="loginEmail" type="email" required></label><label>Password<div style="position:relative"><input id="loginPassword" type="password" required style="padding-right:65px"><button id="togglePassword" type="button" style="position:absolute;right:7px;top:7px;border:0;background:#171717;color:#aaa;padding:6px;border-radius:6px">Show</button></div></label><button id="loginBtn" class="btn btn-primary" type="submit">Sign In</button><p id="loginMsg" class="form-msg error"></p></form></div></section>
+
+<section id="adminApp" class="admin-shell hidden">
+<aside class="sidebar"><div class="brand"><img src="assets/icons/logo.svg"><span>COURSE<span style="color:var(--accent)">RAJ</span></span></div><nav class="sidebar-nav"><button data-view="dashboard">Dashboard</button><button data-view="courses">Courses</button><button data-view="categories">Categories</button><button data-view="settings">Website Settings</button></nav><button id="logoutBtn" class="logout">Sign Out</button></aside>
+<div class="mobile-bar"><b>Courseraj Admin</b><select id="mobileNav">
+<option value="dashboard">Dashboard</option>
+<option value="courses">Courses</option>
+<option value="categories">Categories</option>
+<option value="settings">Website Settings</option>
+</select></div>
+<main class="admin-main"><header class="admin-header"><div><span class="eyebrow">ADMIN CONSOLE</span><h1>Edit Courseraj</h1></div><div id="adminEmail" class="user-badge"></div></header>
+
+<section id="view-dashboard"><div class="stats-grid"><div class="stat"><small>Total Courses</small><strong id="statCourses">0</strong></div><div class="stat"><small>Published</small><strong id="statPublished">0</strong></div><div class="stat"><small>Categories</small><strong id="statCategories">0</strong></div><div class="stat"><small>Featured</small><strong id="statFeatured">0</strong></div></div><div class="panel"><span class="eyebrow">HOW IT WORKS</span><h2>Everything important is editable here.</h2><p class="small-muted">Use Courses for listings/prices, Categories for navigation, and Website Settings for logo, branding, hero, Telegram, colors and SEO text. Public visitors have no edit controls.</p><a href="index.html" target="_blank" class="btn btn-secondary">Open Public Website ↗</a></div></section>
+
+<section id="view-courses" class="hidden"><div id="courseEditor" class="panel editor hidden"><div class="panel-head"><div><span class="eyebrow">EDITOR</span><h2 id="courseFormTitle">Add Course</h2></div><button id="cancelCourseBtn">Close</button></div><form id="courseForm" class="form"><input id="courseId" type="hidden"><label>Course Title<input id="title" required></label><div class="form-grid"><label>Creator<input id="creator"></label><label>Category<input id="category" placeholder="Must match category name"></label></div><div class="form-grid"><label>Selling Price<input id="price" type="number" min="0"></label><label>Original Price<input id="oldPrice" type="number" min="0"></label></div><div class="form-grid"><label>Rating<input id="rating" type="number" min="0" max="5" step=".1"></label><label>Badge<input id="badge" placeholder="Trending / New / Bestseller"></label></div><div class="upload-box">
+<label>Course Thumbnail — Upload from Computer
+<input id="courseImageFile" type="file" accept="image/*">
+</label>
+<div class="upload-preview" id="courseImagePreview"><span>No image selected</span></div>
+<div class="upload-actions">
+<button id="removeCourseImage" type="button">Remove Uploaded Image</button>
+</div>
+<small id="courseImageStatus">Images are automatically resized and compressed before saving.</small>
+</div>
+<label>Optional Image URL Fallback<input id="image" type="url" placeholder="https://... (optional)"></label><label>Telegram Link<input id="telegram" type="url" placeholder="Leave blank to use main Telegram"></label><label>Description<textarea id="description" rows="4"></textarea></label><label>Tags<input id="tags" placeholder="AI, ChatGPT, Editing"></label><label>Display Order<input id="order" type="number" value="9999"></label><div class="check-row"><label class="check"><input id="featured" type="checkbox"> Featured</label><label class="check"><input id="trending" type="checkbox"> Trending</label><label class="check"><input id="published" type="checkbox" checked> Published</label></div><button id="saveCourseBtn" class="btn btn-primary" type="submit">Save Course</button><p id="courseSaveMsg" class="form-msg"></p></form></div>
+<div class="panel"><div class="panel-head"><div><span class="eyebrow">COURSE MANAGER</span><h2>Courses</h2></div><button id="newCourseBtn">+ Add Course</button></div><div class="search" style="margin-bottom:12px"><input id="adminCourseSearch" placeholder="Search courses..."></div><div id="courseList" class="admin-list"></div></div></section>
+
+<section id="view-categories" class="hidden"><div id="categoryEditor" class="panel editor hidden"><div class="panel-head"><h2 id="categoryFormTitle">Add Category</h2><button id="cancelCategoryBtn">Close</button></div><form id="categoryForm" class="form"><input id="categoryId" type="hidden"><label>Category Name<input id="categoryName" required></label><label>Order<input id="categoryOrder" type="number" value="9999"></label><label class="check"><input id="categoryVisible" type="checkbox" checked> Visible on website</label><button class="btn btn-primary" type="submit">Save Category</button></form></div><div class="panel"><div class="panel-head"><div><span class="eyebrow">NAVIGATION</span><h2>Categories</h2></div><button id="newCategoryBtn">+ Add Category</button></div><div id="categoryList" class="admin-list"></div></div></section>
+
+<section id="view-settings" class="hidden"><div class="panel"><div class="panel-head"><div><span class="eyebrow">NO CODE REQUIRED</span><h2>Website Settings</h2></div></div><form id="settingsForm" class="form"><div class="form-grid"><label>Brand Name<input id="set-brandName"></label><label>Accent Color<input id="set-accentColor" type="color" value="#E50914"></label></div><div class="media-grid">
+<div class="upload-box">
+<label>Logo — Upload from Computer<input id="logoFile" type="file" accept="image/*"></label>
+<div class="upload-preview logo-preview" id="logoPreview"><span>Current logo</span></div>
+<button id="uploadLogoBtn" type="button">Upload Logo</button>
+<button id="clearLogoBtn" class="danger" type="button">Use Default Logo</button>
+<small id="logoStatus"></small>
+</div>
+<div class="upload-box">
+<label>Hero Background — Upload from Computer<input id="heroFile" type="file" accept="image/*"></label>
+<div class="upload-preview hero-preview" id="heroPreview"><span>No hero image</span></div>
+<button id="uploadHeroBtn" type="button">Upload Hero Image</button>
+<button id="clearHeroBtn" class="danger" type="button">Remove Hero Image</button>
+<small id="heroStatus"></small>
+</div>
+<div class="upload-box">
+<label>Favicon — Upload from Computer<input id="faviconFile" type="file" accept="image/*"></label>
+<div class="upload-preview favicon-preview" id="faviconPreview"><span>Icon</span></div>
+<button id="uploadFaviconBtn" type="button">Upload Favicon</button>
+<button id="clearFaviconBtn" class="danger" type="button">Use Default Icon</button>
+<small id="faviconStatus"></small>
+</div>
+</div>
+<input id="set-logoUrl" type="hidden" value="assets/icons/logo.svg"><label>Tagline<input id="set-tagline"></label><label>Hero Heading<input id="set-heroTitle"></label><label>Hero Subheading<textarea id="set-heroSubtitle" rows="3"></textarea></label><label>Main Telegram Link<input id="set-telegram" type="url"></label><label>Announcement Text<input id="set-announcement"></label><label class="check"><input id="set-announcementEnabled" type="checkbox" checked> Show announcement bar</label><div class="form-grid"><label>Featured Section Title<input id="set-featuredTitle"></label><label>Trending Section Title<input id="set-trendingTitle"></label></div><div class="form-grid"><label>All Courses Title<input id="set-allCoursesTitle"></label><label>Categories Title<input id="set-categoriesTitle"></label></div><label>Footer Text<input id="set-footerText"></label><label>SEO Page Title<input id="set-seoTitle"></label><label>SEO Description<textarea id="set-seoDescription" rows="3"></textarea></label><button class="btn btn-primary" type="submit">Save Website Settings</button><p id="settingsMsg" class="form-msg"></p></form></div></section>
+</main></section><script type="module" src="js/admin/app.js"></script></body></html>

@@ -1,0 +1,9 @@
+{
+  "name": "Courseraj",
+  "short_name": "Courseraj",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#E50914",
+  "icons": []
+}
