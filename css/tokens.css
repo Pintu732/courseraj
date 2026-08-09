@@ -1,0 +1,5 @@
+:root{
+  --bg:#050505;--panel:#0b0b0b;--panel-2:#111;--text:#fff;--muted:#929292;
+  --accent:#E50914;--line:rgba(255,255,255,.09);--success:#4fd28b;--danger:#ff6870;
+  --max:1280px;--radius:16px;
+}
